@@ -1,8 +1,31 @@
 import { Prisma, PrismaClient } from "@generated/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import * as dotenv from "dotenv";
+import * as fs from "fs";
+import * as path from "path";
 
-dotenv.config();
+const isProduction = process.env.NODE_ENV === "production";
+
+if (!isProduction) {
+	const envName = process.env.NODE_ENV || "development";
+	const envFileName = `.env.${envName}.local`;
+	const envPath = path.resolve(process.cwd(), envFileName);
+
+	if (fs.existsSync(envPath)) {
+		dotenv.config({ path: envPath });
+		console.log(`[Seeder] Loaded environment from ${envFileName}`);
+	} else {
+		const fallbackPath = path.resolve(process.cwd(), ".env");
+		if (fs.existsSync(fallbackPath)) {
+			dotenv.config({ path: fallbackPath });
+			console.log(`[Seeder] Loaded fallback environment from .env`);
+		}
+	}
+} else {
+	console.log(
+		"[Seeder] Running in production. Using system environment variables.",
+	);
+}
 
 const adapter = new PrismaPg({
 	user: process.env.DATABASE_USERNAME,
