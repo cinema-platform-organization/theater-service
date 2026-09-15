@@ -55,4 +55,27 @@ export class SeatPrismaRepository implements SeatRepositoryPort {
 				),
 		);
 	}
+
+	public async update(
+		id: string,
+		data: { price?: number; type?: string },
+	): Promise<SeatEntity> {
+		const seat = await this.prismaService.seat.update({
+			where: { id },
+			data,
+		});
+
+		return new SeatEntity(
+			seat.id,
+			seat.row,
+			seat.number,
+			seat.price,
+			seat.type,
+			seat.hallId,
+		);
+	}
+
+	public async delete(id: string): Promise<void> {
+		await this.prismaService.seat.delete({ where: { id } });
+	}
 }

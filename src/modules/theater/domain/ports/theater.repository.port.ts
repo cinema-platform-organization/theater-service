@@ -7,4 +7,9 @@ export abstract class TheaterRepositoryPort {
 		name: string;
 		address: string;
 	}): Promise<TheaterEntity>;
+	public abstract update(
+		id: string,
+		data: { name?: string; address?: string },
+	): Promise<TheaterEntity>;
+	public abstract delete(id: string): Promise<void>;
 }

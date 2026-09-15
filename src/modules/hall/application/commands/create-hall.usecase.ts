@@ -19,13 +19,13 @@ export class CreateHallUsecase {
 		theaterId: string;
 		layout: RowLayout[];
 	}) {
-		return this.prismaService.$transaction(async () => {
-			const hall = await this.repository.create(data);
+		return this.prismaService.$transaction(async tx => {
+			const hall = await this.repository.create(data, tx);
 
-			await this.repository.createSeats({
-				hallId: hall.id,
-				layout: data.layout,
-			});
+			await this.repository.createSeats(
+				{ hallId: hall.id, layout: data.layout },
+				tx,
+			);
 
 			return hall;
 		});

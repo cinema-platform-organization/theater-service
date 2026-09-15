@@ -24,6 +24,34 @@ export class TheaterPrismaRepository implements TheaterRepositoryPort {
 		);
 	}
 
+	public async update(
+		id: string,
+		data: { name?: string; address?: string },
+	): Promise<TheaterEntity> {
+		const theater = await this.prismaService.theater.update({
+			where: {
+				id,
+			},
+			data,
+		});
+
+		return new TheaterEntity(
+			theater.id,
+			theater.name,
+			theater.address,
+			theater.createdAt,
+			theater.updatedAt,
+		);
+	}
+
+	public async delete(id: string): Promise<void> {
+		await this.prismaService.theater.delete({
+			where: {
+				id,
+			},
+		});
+	}
+
 	public async findById(id: string): Promise<TheaterEntity | null> {
 		const theater = await this.prismaService.theater.findUnique({
 			where: {
