@@ -10,8 +10,12 @@ export class ListSeatsUsecase {
 		private readonly booking: BookingPort,
 	) {}
 
-	public async execute(hallId: string, screeningId: string) {
+	public async execute(hallId: string, screeningId?: string) {
 		const seats = await this.repository.findByHall(hallId);
+
+		if (!screeningId) {
+			return seats;
+		}
 
 		const reserved = await this.booking.listReservedSeats(
 			hallId,
