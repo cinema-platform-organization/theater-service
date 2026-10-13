@@ -1,6 +1,6 @@
+import { MetricsModule, ServiceLoggerModule } from "@cinema-platform/common";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { LoggerModule } from "nestjs-pino";
 
 import { PrismaModule } from "@/infrastructure/prisma/prisma.module";
 import { HallModule } from "@/modules/hall/infrastructure/hall.module";
@@ -17,7 +17,8 @@ import { TheaterModule } from "@/modules/theater/infrastructure/theater.module";
 				".env",
 			],
 		}),
-		LoggerModule.forRoot(),
+		ServiceLoggerModule.forRoot("theater-service"),
+		MetricsModule.forRoot("theater-service"),
 		PrismaModule,
 		TheaterModule,
 		HallModule,
