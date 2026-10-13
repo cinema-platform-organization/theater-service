@@ -27,7 +27,7 @@ export class ScreeningGrpcAdapter implements ScreeningPort, OnModuleInit {
 				this.service.hasUpcomingScreeningsForHall({ hallId }),
 			);
 
-			return res.hasScreenings;
+			return res.hasScreenings ?? false;
 		} catch (error) {
 			this.logger.error(
 				{ err: error as Error, hallId },

@@ -27,7 +27,8 @@ export class ScreeningGrpcAdapter implements ScreeningPort, OnModuleInit {
 				this.service.hasUpcomingScreeningsForHall({ hallId }),
 			);
 
-			return res.hasScreenings;
+			// gRPC omits false booleans: "no screenings" arrives as undefined
+			return res.hasScreenings ?? false;
 		} catch (error) {
 			this.logger.error(
 				{ err: error as Error, hallId },
@@ -43,7 +44,7 @@ export class ScreeningGrpcAdapter implements ScreeningPort, OnModuleInit {
 				this.service.hasUpcomingScreeningsForTheater({ theaterId }),
 			);
 
-			return res.hasScreenings;
+			return res.hasScreenings ?? false;
 		} catch (error) {
 			this.logger.error(
 				{ err: error as Error, theaterId },
