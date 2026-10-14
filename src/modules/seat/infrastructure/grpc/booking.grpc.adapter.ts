@@ -37,6 +37,7 @@ export class BookingGrpcAdapter implements BookingPort, OnModuleInit {
 				{ err: error as Error, hallId, screeningId },
 				"Failed to list reserved seats",
 			);
+
 			throw toRpcException(error, "Failed to list reserved seats");
 		}
 	}

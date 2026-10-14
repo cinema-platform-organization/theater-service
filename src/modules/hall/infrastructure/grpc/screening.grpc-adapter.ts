@@ -27,13 +27,13 @@ export class ScreeningGrpcAdapter implements ScreeningPort, OnModuleInit {
 				this.service.hasUpcomingScreeningsForHall({ hallId }),
 			);
 
-			// gRPC omits false booleans: "no screenings" arrives as undefined
 			return res.hasScreenings ?? false;
 		} catch (error) {
 			this.logger.error(
 				{ err: error as Error, hallId },
 				"Failed to check screenings for hall",
 			);
+
 			throw toRpcException(error, "Failed to check screenings for hall");
 		}
 	}

@@ -33,6 +33,7 @@ export class ScreeningGrpcAdapter implements ScreeningPort, OnModuleInit {
 				{ err: error as Error, hallId },
 				"Failed to check screenings for hall",
 			);
+
 			throw toRpcException(error, "Failed to check screenings for hall");
 		}
 	}
